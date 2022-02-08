@@ -59,6 +59,8 @@ package hid
 #elif OS_WINDOWS
 	#include "hidapi/windows/hid.c"
 #endif
+#include <stdint.h>
+#include <stdlib.h>
 */
 import "C"
 
