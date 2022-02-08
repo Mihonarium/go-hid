@@ -27,14 +27,38 @@
 // See https://github.com/signal11/hidapi for details.
 package hid
 
-/*
-#cgo darwin LDFLAGS: -lhidapi -framework IOKit -framework CoreFoundation
-#cgo linux LDFLAGS: -lhidapi-hidraw -ludev
-#cgo windows LDFLAGS: -lhidapi -lsetupapi
 
-#include <stdint.h>
-#include <stdlib.h>
-#include <hidapi/hidapi.h>
+/*
+#cgo CFLAGS: -I./hidapi/hidapi
+
+#cgo linux CFLAGS: -I./libusb/libusb -DDEFAULT_VISIBILITY="" -DOS_LINUX -D_GNU_SOURCE -DPOLL_NFDS_TYPE=int
+#cgo linux,!android LDFLAGS: -lrt
+#cgo darwin CFLAGS: -DOS_DARWIN
+#cgo darwin LDFLAGS: -framework CoreFoundation -framework IOKit
+#cgo windows CFLAGS: -DOS_WINDOWS
+#cgo windows LDFLAGS: -lsetupapi
+
+#ifdef OS_LINUX
+	#include <poll.h>
+	#include "os/threads_posix.c"
+	#include "os/poll_posix.c"
+
+	#include "os/linux_usbfs.c"
+	#include "os/linux_netlink.c"
+
+	#include "core.c"
+	#include "descriptor.c"
+	#include "hotplug.c"
+	#include "io.c"
+	#include "strerror.c"
+	#include "sync.c"
+
+	#include "hidapi/libusb/hid.c"
+#elif OS_DARWIN
+	#include "hidapi/mac/hid.c"
+#elif OS_WINDOWS
+	#include "hidapi/windows/hid.c"
+#endif
 */
 import "C"
 
