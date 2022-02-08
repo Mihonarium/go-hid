@@ -29,7 +29,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/sstallion/go-hid"
+	"github.com/Mihonarium/go-hid"
 )
 
 var (
